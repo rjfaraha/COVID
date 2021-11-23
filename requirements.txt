@@ -6,5 +6,5 @@ requests==2.22.0
 python-dotenv==0.18.0
 joblib==1.1.0
 sklearn==1.0.1
-scikit-learn==1.0.1
+scikit-learn==2.2.0
 
