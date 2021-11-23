@@ -9,13 +9,12 @@ Created on Tue Oct 19 16:19:52 2021
 import streamlit as st
 import pandas as pd
 import numpy as np
-from PIL import Image
 import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 from joblib import dump, load
-from sklearn.model_selection import train_test_split
-from sklearn.feature_selection import f_regression, mutual_info_regression
+#from sklearn.model_selection import train_test_split
+from sklearn.feature_selection import mutual_info_regression
 
 
 
