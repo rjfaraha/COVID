@@ -62,10 +62,7 @@ work_select = st.sidebar.selectbox('Workplace Closing',('no measures',\
                                                            'require closing all'))
 
                                                            
-home_select = st.sidebar.selectbox('Stay at home',('no measures',\
-                                                   'recommend','require with exeptions',\
-                                                   'require only emergency exeptions'))
-    
+   
 event_select = st.sidebar.selectbox('Cancel public events',('no measures',\
 'recommend','require'))
 
@@ -151,13 +148,14 @@ Intervention("- This application predicts the future daily COVID-19 growth acros
         case numbers for 114 countries to train this model.")
 st.markdown("You can see the code [here](https://github.com/rjfaraha/COVID)")
 
-Intervention("- Use the menu at left to select country, date and intervention metrics.\
-             Below you will see a table that shows possible effective interventions for each country.\
+Intervention("- Use the menu at left to select a country, date and intervention metrics.\
+             Below you will see a table that shows possible effective interventions for the selected country.\
                  Please note that the interventions show their effectiveness when the current \
                      growth is high. Two plots will appear below. The first one is a \
                     bar chart that shows current infection growth as well as 14-days growth\
-                       prediction. The second plot shows confirmed  infected cases versus\
-                           confirmed deaths")
+                       prediction. The second plot shows total confirmed  infected cases versus\
+                           total confirmed deaths over the period of pandemic for the\
+                               selected country.")
 
 
 Intervention("- Possible Effective Interventions:  " + country_select)
@@ -212,14 +210,7 @@ else:
     elif work_select == 'require closing all':
         row_1['C2_combined_numeric'] = 3
         
-    if home_select == 'no measures':
-        row_1['C6_combined_numeric'] = 0
-    elif home_select == 'recommend':
-        row_1['C6_combined_numeric'] = 1
-    elif home_select == 'require with exeptions':
-        row_1['C6_combined_numeric'] = 2
-    elif home_select == 'require only emergency exeptions':
-        row_1['C6_combined_numeric'] = 3  
+    
                                                   
     #if facial_select == 'No policy':
     #    row_1['H6_combined_numeric'] = 0
