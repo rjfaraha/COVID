@@ -24,6 +24,7 @@ st.title('COVID Infection Growth Prediction')
 st.markdown('<style>body{background-color: lightblue;}</style>',unsafe_allow_html=True)
 st.markdown('<style>.ReactVirtualized__Grid__innerScrollContainer div[class^="row"], .ReactVirtualized__Grid__innerScrollContainer div[class^="data row"]{ background:lgreen; } </style>', unsafe_allow_html=True)
 
+    
 country_select = st.sidebar.selectbox('Select a Country',('Algeria', 'Angola', 'Argentina', 'Australia', 'Austria', 'Bahrain', 'Bangladesh',\
                 'Belgium', 'Benin', 'Botswana', 'Brazil', 'Bulgaria', 'Burkina Faso', 'Burundi',\
                 'Cameroon', 'Chile', 'Colombia'\
@@ -44,7 +45,7 @@ year_select = st.sidebar.selectbox('Year',("2021","2020"))
 month_select = st.sidebar.selectbox('Month',("01","02","03","04","05","06","07",\
                                     "08","09","10","11","12"))
 day_select = st.sidebar.selectbox('Day',("01","02","03","04","05","06","07",\
-                                    "08","09","10","11","12","13","14","15"\
+                                    "08","09","10","11","12","13","14","15",\
                                         "16","17","18","19","20","21","22",\
                                             "23","24","25","26","27","28",\
                                                 "29","30"))
@@ -141,9 +142,25 @@ mi_df = mi_df.reset_index()
 
 #st.write("Effective Interventions " + country_select ,mi_df['features'])
 def Intervention(url):
-     st.markdown(f'<p style="font-size:24px;border-radius:2%;">{url}</p>', unsafe_allow_html=True)
+     st.markdown(f'<p style="font-size:20px;border-radius:2%;">{url}</p>', unsafe_allow_html=True)
 
-Intervention("Effective Interventions:  " + country_select)
+
+Intervention("- This application predicts the future daily COVID-19 growth across\
+             14 days using Random Forest Model. We combined the Oxford COVID-19 Government Response Tracker data set,\
+    Hofstede cultural dimensions, and daily reported COVID-19 infection\
+        case numbers for 114 countries to train this model.")
+st.markdown("You can see the code [here](https://github.com/rjfaraha/COVID)")
+
+Intervention("- Use the menu at left to select country, date and intervention metrics.\
+             Below you will see a table that shows possible effective interventions for each country.\
+                 Please note that the interventions show their effectiveness when the current \
+                     growth is high. Two plots will appear below. The first one is a \
+                    bar chart that shows current infection growth as well as 14-days growth\
+                       prediction. The second plot shows confirmed  infected cases versus\
+                           confirmed deaths")
+
+
+Intervention("- Possible Effective Interventions:  " + country_select)
 
 if mi_df.shape[0]>0:
     st.dataframe(mi_df['Features'])
@@ -152,6 +169,11 @@ else:
      st.markdown(f'<p style="background-color:#0066cc;color:#33ff33;font-size:24px;border-radius:2%;">{url}</p>', unsafe_allow_html=True)
     #header('No Effective Interventions found')
     st.write('No Effective Interventions found')
+
+#Confirmed Cases and Deaths
+latest = pd.read_csv("latest_combined.csv")
+latest_country = latest[latest["CountryName"] == country_name]
+latest_country = latest_country[["ConfirmedCases", "ConfirmedDeaths"]]
 
 
 date = int(year_select + month_select + day_select)
@@ -165,8 +187,8 @@ if df_max_country.shape[0] == 0:
       st.markdown('<p class="big-font">No Data Available for this Date</p>', unsafe_allow_html=True)
 else:
     row_1 = df_max_country
-    row_1 = row_1.drop(columns=['CountryName', 'Date','str_date','CGI_14days_later'\
-                            ,'Unnamed: 0'])
+    row_1 = row_1.drop(columns=['CountryName', 'Date','str_date','CGI_14days_later',\
+                            'Unnamed: 0'])
 
     
 
@@ -291,7 +313,7 @@ else:
     current_value = (df_max_country['CGI'].array)[0] *100
     predict_value =  predict[0]*100
     
-    df_plot = pd.DataFrame({'Time': ['Current Growth', '14-days Growth'], 'Growth %': [current_value, predict_value]})
+    df_plot = pd.DataFrame({'Time': ['Current Growth', '14-days Growth Prediction'], 'Growth %': [current_value, predict_value]})
     
     df_plot.plot.bar(x='Time',y='Growth %',figsize=(10,5))
     
@@ -300,7 +322,20 @@ else:
     fig = px.bar(df_plot, x='Time',y="Growth %")
     fig.update_traces(marker_color='green')
     fig.update_layout(    
-        font_size = 16,
-        font_color="white",
+        font_size = 14,
+        font_color="Black",
     )
     st.plotly_chart(fig)
+    
+    
+    df_plot = latest_country
+    
+    df_plot.plot.scatter(x='ConfirmedDeaths',y='ConfirmedCases',figsize=(10,5))
+    
+    
+    
+    fig1 = px.scatter(df_plot, x='ConfirmedDeaths',y="ConfirmedCases")
+
+    st.write(fig1)
+    
+    
