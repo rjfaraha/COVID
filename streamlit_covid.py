@@ -145,7 +145,9 @@ def Intervention(url):
 Intervention("- This application predicts the future daily COVID-19 growth across\
              14 days using Random Forest Model. We combined the Oxford COVID-19 Government Response Tracker data set,\
     Hofstede cultural dimensions, and daily reported COVID-19 infection\
-        case numbers for 114 countries to train this model.")
+        case numbers for 114 countries to train this model. The test set R2 score of this\
+            Random Forest Model is 0.6 in \
+            comparison to a Naïve Model that results into R2 score of 0.2.")
 st.markdown("You can see the code [here](https://github.com/rjfaraha/COVID)")
 
 Intervention("- Use the menu at left to select a country, date and intervention metrics.\
